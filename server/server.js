@@ -14,6 +14,18 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
     console.log('New user connected');
 
+    socket.emit('newMessage', {
+        from: 'Admin',
+        message: 'Welcome to the chat app',
+        createdAt: new Date().getTime()
+    });
+
+    socket.broadcast.emit('newMessage', {
+        from: 'Admin',
+        message: 'New user joined the chatroom',
+        createdAt: new Date().getTime()
+    });
+
     socket.on('createMessage', (message) => {
         console.log('CreateMessage', message);
         io.emit('newMessage', { // trimite tuturor conexiunilor // socket.emit trimite doar uneia
@@ -21,6 +33,11 @@ io.on('connection', (socket) => {
             text: message.text,
             createdAt: new Date().getTime()
         });
+        //     socket.broadcast.emit('newMessage', { // trimite messajul mai putin socketului deschis adica celui care l-a trimis
+        //     from: message.from,
+        //     text: message.text,
+        //     createdAt: new Date().getTime()
+        // })
     });
 
     socket.on('disconnect', () => {
