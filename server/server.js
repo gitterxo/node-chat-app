@@ -23,7 +23,8 @@ io.on('connection', (socket) => {
     socket.on('createMessage', (message, callback) => {
         console.log('CreateMessage', message);
         io.emit('newMessage', generateMessage(message.from, message.text)); // trimite tuturor conexiunilor // socket.emit trimite doar uneia
-        callback('This is from the server');
+        callback('');
+        // callback('This is from the server');
         //     socket.broadcast.emit('newMessage', { // trimite messajul mai putin socketului deschis adica celui care l-a trimis
         //     from: message.from,
         //     text: message.text,
